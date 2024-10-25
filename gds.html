@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration and Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+    .container {
+      width: 300px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .container h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .message {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="registerForm">
+  <h2>Register</h2>
+  <input type="text" id="username" placeholder="Username" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <input type="date" id="dob" placeholder="Date of Birth" required>
+  <input type="text" id="color" placeholder="Favorite Color (must be 'red')" required>
+  <button onclick="registerUser()">Register</button>
+  <p class="message" id="registerMessage"></p>
+</div>
+
+<div class="container" id="loginForm" style="display: none;">
+  <h2>Login</h2>
+  <input type="text" id="loginUsername" placeholder="Username" required>
+  <input type="password" id="loginPassword" placeholder="Password" required>
+  <button onclick="loginUser()">Login</button>
+  <p class="message" id="loginMessage"></p>
+</div>
+
+<script>
+  function registerUser() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const dob = document.getElementById("dob").value;
+    const color = document.getElementById("color").value.toLowerCase();
+    const message = document.getElementById("registerMessage");
+
+    // Check if the favorite color is 'red'
+    if (color !== "red") {
+      message.innerText = "Error: The favorite color must be 'red'!";
+      return;
+    }
+
+    // Store user information in local storage
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+    localStorage.setItem("dob", dob);
+    localStorage.setItem("color", color);
+
+    message.innerText = "Registration successful!";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+  }
+
+  function loginUser() {
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const message = document.getElementById("loginMessage");
+
+    // Retrieve user data from local storage
+    const storedUsername = localStorage.getItem("username");
+    const storedPassword = localStorage.getItem("password");
+
+    // Check if the username and password match
+    if (username === storedUsername && password === storedPassword) {
+      message.innerText = `Welcome back, ${username}!`;
+      message.style.color = "green";
+    } else {
+      message.innerText = "Invalid username or password.";
+      message.style.color = "red";
+    }
+  }
+</script>
+
+</body>
+</html>
